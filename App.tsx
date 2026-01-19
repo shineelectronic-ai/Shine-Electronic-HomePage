@@ -6,15 +6,14 @@ import {
   Settings, ArrowRight, Mail, Phone, MapPin, 
   Trash2, Edit2, PlusCircle, Network, Camera, Tv, MessageSquare, Smartphone, Database, CheckCircle
 } from 'lucide-react';
-import { Service, SiteConfig } from './types';
-import { INITIAL_SERVICES, INITIAL_SITE_CONFIG } from './constants';
+import { Service, SiteConfig } from './types.ts';
+import { INITIAL_SERVICES, INITIAL_SITE_CONFIG } from './constants.tsx';
 
 // --- Components ---
 
 const Logo: React.FC<{ className?: string }> = ({ className = "" }) => {
   return (
     <div className={`relative flex items-center ${className}`}>
-      {/* Balanced RGB Circle Logo */}
       <svg width="60" height="50" viewBox="0 0 100 85" className="mr-3">
         <circle cx="50" cy="30" r="28" fill="#00FF00" fillOpacity="0.75" />
         <circle cx="32" cy="55" r="28" fill="#FF0000" fillOpacity="0.75" />
@@ -165,14 +164,11 @@ const ServiceIcon: React.FC<{ type: string }> = ({ type }) => {
 const Home: React.FC<{ services: Service[], config: SiteConfig }> = ({ services, config }) => {
   return (
     <div className="pt-20">
-      {/* Hero Section with Bright Background */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden bg-white">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 right-0 w-1/2 h-full bg-slate-50 hidden lg:block skew-x-[-15deg] transform translate-x-1/4"></div>
-          {/* Subtle animated pattern */}
           <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')]"></div>
         </div>
-        
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="animate-in fade-in slide-in-from-left-8 duration-700">
             <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-purple/10 text-brand-purple text-xs font-bold mb-6 tracking-widest uppercase">
@@ -198,8 +194,6 @@ const Home: React.FC<{ services: Service[], config: SiteConfig }> = ({ services,
               </div>
             </div>
           </div>
-
-          {/* Multi-Image Gallery Showcase */}
           <div className="relative h-[500px] animate-in zoom-in fade-in duration-1000">
              <div className="absolute top-0 right-0 w-full h-full grid grid-cols-2 grid-rows-2 gap-4">
                 <div className="rounded-3xl overflow-hidden shadow-2xl hover:scale-[1.02] transition-transform">
@@ -215,7 +209,6 @@ const Home: React.FC<{ services: Service[], config: SiteConfig }> = ({ services,
                   <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&q=80&w=400" alt="Laptop Repair" className="w-full h-full object-cover" />
                 </div>
              </div>
-             {/* Floating Info Tag */}
              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-white p-6 rounded-2xl shadow-2xl border border-slate-100 flex items-center space-x-4 w-64">
                 <div className="w-12 h-12 bg-brand-purple/10 rounded-full flex items-center justify-center text-brand-purple">
                   <Shield size={24} />
@@ -229,7 +222,6 @@ const Home: React.FC<{ services: Service[], config: SiteConfig }> = ({ services,
         </div>
       </section>
 
-      {/* Services Grid Section */}
       <section className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -262,7 +254,6 @@ const Home: React.FC<{ services: Service[], config: SiteConfig }> = ({ services,
         </div>
       </section>
 
-      {/* Why Choose Us */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
            <div className="space-y-10">
@@ -344,7 +335,6 @@ const ContactPage: React.FC<{ config: SiteConfig }> = ({ config }) => {
             <p className="text-slate-600 text-lg mb-12 leading-relaxed">
               Located on the Upper West Side, we're here to solve all your electronic, computer, and security needs.
             </p>
-            
             <div className="space-y-8">
               <div className="flex items-start gap-6 group">
                 <div className="p-4 bg-slate-100 rounded-2xl text-brand-purple"><MapPin /></div>
@@ -370,7 +360,6 @@ const ContactPage: React.FC<{ config: SiteConfig }> = ({ config }) => {
               </div>
             </div>
           </div>
-
           <form onSubmit={handleSubmit} className="bg-slate-50 p-10 rounded-[2.5rem] border border-slate-100 shadow-sm">
             {submitted ? (
               <div className="h-full flex flex-col items-center justify-center text-center space-y-4 py-12">
@@ -412,8 +401,6 @@ const ContactPage: React.FC<{ config: SiteConfig }> = ({ config }) => {
             )}
           </form>
         </div>
-
-        {/* Google Map Integration */}
         <div className="w-full h-[450px] rounded-[3rem] overflow-hidden border border-slate-200 shadow-2xl relative">
           <iframe 
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.921387606774!2d-73.97828062341498!3d40.78572417138342!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2588f018e692b%3A0xc3f124c653655325!2s137%20W%2083rd%20St%2C%20New%20York%2C%20NY%2010024!5e0!3m2!1sen!2sus!4v1709400000000!5m2!1sen!2sus" 
@@ -464,7 +451,6 @@ const AdminDashboard: React.FC<{
           <button onClick={() => setActiveTab('config')} className={`px-10 py-6 font-bold ${activeTab === 'config' ? 'bg-slate-50 text-brand-purple' : 'text-slate-400 hover:text-slate-600'}`}>General Config</button>
           <button onClick={() => setActiveTab('services')} className={`px-10 py-6 font-bold ${activeTab === 'services' ? 'bg-slate-50 text-brand-purple' : 'text-slate-400 hover:text-slate-600'}`}>Manage Services</button>
         </div>
-
         <div className="p-10">
           {activeTab === 'config' && (
             <div className="space-y-8">
@@ -493,7 +479,6 @@ const AdminDashboard: React.FC<{
               <button className="px-10 py-4 bg-brand-purple text-white rounded-xl font-bold shadow-lg">Save Settings</button>
             </div>
           )}
-
           {activeTab === 'services' && (
             <div>
               <div className="flex justify-between items-center mb-10">
@@ -536,7 +521,6 @@ export default function App() {
   useEffect(() => {
     const savedServices = localStorage.getItem('shine_v2_services');
     const savedConfig = localStorage.getItem('shine_v2_config');
-    
     if (savedServices) setServices(JSON.parse(savedServices));
     if (savedConfig) setConfig(JSON.parse(savedConfig));
   }, []);
@@ -551,7 +535,6 @@ export default function App() {
     <Router>
       <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-brand-purple selection:text-white">
         <Navbar shopName={config.shopName} />
-        
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home services={services} config={config} />} />
@@ -567,10 +550,7 @@ export default function App() {
             } />
           </Routes>
         </main>
-
         <Footer config={config} />
-        
-        {/* Simple Mobile Trigger */}
         <Link to="/contact" className="fixed bottom-6 right-6 z-50 p-5 bg-brand-purple text-white rounded-full shadow-2xl md:hidden transform active:scale-90 transition-transform">
           <MessageSquare size={24} />
         </Link>
