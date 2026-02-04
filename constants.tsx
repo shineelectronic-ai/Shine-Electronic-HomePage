@@ -1,5 +1,5 @@
 
-import { Service, SiteConfig } from './types';
+import { Service, SiteConfig, BlogPost, ThemeConfig } from './types';
 
 export const INITIAL_SITE_CONFIG: SiteConfig = {
   shopName: "Shine Electronic & Computer",
@@ -8,6 +8,12 @@ export const INITIAL_SITE_CONFIG: SiteConfig = {
   textPhone: "(917) 960-2277",
   email: "shineelectronic@gmail.com",
   address: "137 West 83rd Street, New York, NY 10024",
+};
+
+export const INITIAL_THEME_CONFIG: ThemeConfig = {
+  primaryColor: "#A020F0",
+  headingFont: "Montserrat",
+  bodyFont: "Inter",
 };
 
 export const INITIAL_SERVICES: Service[] = [
@@ -52,5 +58,24 @@ export const INITIAL_SERVICES: Service[] = [
     description: "Expert screen and battery replacements for all major mobile brands. Charging port and internal component repairs.",
     icon: "smartphone",
     imageUrl: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&q=80&w=800"
+  }
+];
+
+export const INITIAL_POSTS: BlogPost[] = [
+  {
+    id: "p1",
+    title: "Why Maintenance Matters for High-End Audio",
+    excerpt: "Professional high-end audio equipment requires precise calibration and internal cleaning to maintain its peak acoustic performance over decades.",
+    content: "Full detailed article content here...",
+    date: "2024-03-15",
+    imageUrl: "https://images.unsplash.com/photo-1614149162883-504ce4d13909?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    id: "p2",
+    title: "The Future of Home Security: AI-Driven Systems",
+    excerpt: "Discover how AI-integrated CCTV systems are changing Manhattan security, offering smarter alerts and superior night vision capabilities.",
+    content: "Full detailed article content here...",
+    date: "2024-03-10",
+    imageUrl: "https://images.unsplash.com/photo-1590487988256-9ed24133863e?auto=format&fit=crop&q=80&w=800"
   }
 ];

@@ -8,6 +8,21 @@ export interface Service {
   price?: string;
 }
 
+export interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  date: string;
+  imageUrl: string;
+}
+
+export interface ThemeConfig {
+  primaryColor: string;
+  headingFont: string;
+  bodyFont: string;
+}
+
 export interface SiteConfig {
   shopName: string;
   tagline: string;
