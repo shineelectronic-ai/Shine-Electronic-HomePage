@@ -11,43 +11,66 @@ import { INITIAL_SERVICES, INITIAL_SITE_CONFIG } from './constants.tsx';
 
 // --- Components ---
 
-const Logo: React.FC<{ className?: string }> = ({ className = "" }) => {
+const Logo: React.FC<{ className?: string, height?: string }> = ({ className = "", height = "h-16 sm:h-20" }) => {
   return (
-    <div className={`flex items-center gap-2 sm:gap-3 whitespace-nowrap overflow-visible ${className}`}>
-      {/* "shine" in lowercase serif */}
-      <span className="text-2xl sm:text-3xl font-serif text-slate-900 lowercase tracking-tight">
-        shine
-      </span>
-      
-      {/* Three Slanted Bars (Red, Green, Blue) precisely matching the attachment */}
-      <svg width="42" height="28" viewBox="0 0 42 28" className="flex-shrink-0 drop-shadow-sm">
-        {/* Red Bar */}
-        <rect 
-          x="4" y="2" width="26" height="4.5" 
-          fill="#FF0000" 
-          transform="rotate(-25 15 6)" 
-          rx="0.5"
-        />
-        {/* Green Bar */}
-        <rect 
-          x="4" y="11" width="26" height="4.5" 
-          fill="#00FF00" 
-          transform="rotate(-25 15 14)" 
-          rx="0.5"
-        />
-        {/* Blue Bar */}
-        <rect 
-          x="4" y="20" width="26" height="4.5" 
-          fill="#0000FF" 
-          transform="rotate(-25 15 22)" 
-          rx="0.5"
-        />
+    <div className={`flex items-center gap-2 overflow-visible ${className}`}>
+      {/* 
+         사용자 요청 사양:
+         1. 원 세 개 교집합: 빛의 삼원색 가산 혼합 (RGB -> Yellow, Cyan, Magenta, White)
+         2. 상단: 녹색(#00FF00), 좌측하단: 빨강(#FF0000), 우측하단: 파랑(#0000FF)
+         3. 블렌딩 모드를 screen으로 변경하여 교차 지점의 색상을 물리적으로 정확하게 표현
+         4. 로고 글자 크기 10% 추가 확대 (최종 56px)
+         5. 형태와 사이즈는 유지하되 풋터에서도 컬러로 표현
+      */}
+      <svg 
+        viewBox="0 0 380 200" 
+        className={`${height} w-auto drop-shadow-xl transition-transform duration-300 hover:scale-105`}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g style={{ isolation: 'isolate' }}>
+          {/* 빛의 삼원색 구현: 배경이 밝으므로 screen 모드가 효과를 내도록 어두운 베이스 보호 레이어 포함 */}
+          <circle cx="180" cy="110" r="85" fill="#000000" opacity="0.15" filter="blur(8px)" />
+          
+          {/* 상단 원 (Pure Green) */}
+          <circle cx="180" cy="70" r="54" fill="#00FF00" style={{ mixBlendMode: 'screen' }} />
+          {/* 좌측 하단 원 (Pure Red) */}
+          <circle cx="135" cy="145" r="54" fill="#FF0000" style={{ mixBlendMode: 'screen' }} />
+          {/* 우측 하단 원 (Pure Blue) */}
+          <circle cx="225" cy="145" r="54" fill="#0000FF" style={{ mixBlendMode: 'screen' }} />
+        </g>
+
+        {/* 텍스트 배치 - 크기 56px, 검정색, 강한 하얀색 음영 */}
+        <g>
+          <text 
+            x="35" 
+            y="100" 
+            fontFamily="Montserrat, sans-serif" 
+            fontWeight="900" 
+            fontSize="56" 
+            fill="#000000"
+            style={{ 
+              filter: 'drop-shadow(0px 0px 5px rgba(255,255,255,1)) drop-shadow(0px 0px 3px rgba(255,255,255,1))',
+              paintOrder: 'stroke fill'
+            }}
+          >
+            Shine
+          </text>
+          <text 
+            x="80" 
+            y="155" 
+            fontFamily="Montserrat, sans-serif" 
+            fontWeight="900" 
+            fontSize="56" 
+            fill="#000000"
+            style={{ 
+              filter: 'drop-shadow(0px 0px 5px rgba(255,255,255,1)) drop-shadow(0px 0px 3px rgba(255,255,255,1))',
+              paintOrder: 'stroke fill'
+            }}
+          >
+            Electronic
+          </text>
+        </g>
       </svg>
-      
-      {/* "electronic & computer" in lowercase serif */}
-      <span className="text-2xl sm:text-3xl font-serif text-slate-900 lowercase tracking-tight">
-        electronic & computer
-      </span>
     </div>
   );
 };
@@ -63,26 +86,27 @@ const Navbar: React.FC<{ shopName: string }> = ({ shopName }) => {
   ];
 
   return (
-    <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+    <nav className="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-24">
-          <Link to="/" className="hover:opacity-95 transition-opacity flex-shrink-0">
-            <Logo className="scale-[0.65] xs:scale-75 sm:scale-90 md:scale-100 origin-left" />
+        <div className="flex items-center justify-between h-24 sm:h-28">
+          <Link to="/" className="hover:opacity-90 transition-opacity flex-shrink-0">
+            <Logo />
           </Link>
           <div className="hidden lg:block">
-            <div className="ml-10 flex items-center space-x-8">
+            <div className="ml-10 flex items-center space-x-10">
               {links.map((link) => (
                 <Link
                   key={link.name}
                   to={link.path}
                   className={`${
-                    location.pathname === link.path ? 'text-brand-purple border-b-2 border-brand-purple' : 'text-slate-600 hover:text-brand-purple'
-                  } px-1 py-1 text-sm font-bold transition-all`}
+                    location.pathname === link.path ? 'text-brand-purple' : 'text-slate-600 hover:text-brand-purple'
+                  } px-1 py-1 text-sm font-bold transition-all relative group`}
                 >
                   {link.name}
+                  <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-brand-purple transform origin-left transition-transform duration-300 ${location.pathname === link.path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
                 </Link>
               ))}
-              <Link to="/admin" className="text-slate-400 hover:text-brand-purple transition-colors">
+              <Link to="/admin" className="text-slate-400 hover:text-brand-purple transition-colors p-2 rounded-full hover:bg-slate-50">
                 <Settings size={20} />
               </Link>
             </div>
@@ -90,7 +114,7 @@ const Navbar: React.FC<{ shopName: string }> = ({ shopName }) => {
           <div className="lg:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-slate-600 hover:text-brand-purple focus:outline-none"
+              className="text-slate-600 hover:text-brand-purple focus:outline-none p-2"
             >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
@@ -100,13 +124,15 @@ const Navbar: React.FC<{ shopName: string }> = ({ shopName }) => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-2 pt-2 pb-3 space-y-1 shadow-xl">
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-4 pb-6 space-y-2 shadow-2xl animate-in slide-in-from-top duration-300">
           {links.map((link) => (
             <Link
               key={link.name}
               to={link.path}
               onClick={() => setIsOpen(false)}
-              className="block text-slate-700 hover:text-brand-purple px-3 py-4 rounded-md text-base font-bold"
+              className={`block px-4 py-4 rounded-xl text-base font-bold ${
+                location.pathname === link.path ? 'bg-brand-purple/10 text-brand-purple' : 'text-slate-700 hover:bg-slate-50'
+              }`}
             >
               {link.name}
             </Link>
@@ -114,9 +140,9 @@ const Navbar: React.FC<{ shopName: string }> = ({ shopName }) => {
           <Link
             to="/admin"
             onClick={() => setIsOpen(false)}
-            className="block text-slate-700 hover:text-brand-purple px-3 py-4 rounded-md text-base font-bold"
+            className="block px-4 py-4 rounded-xl text-base font-bold text-slate-400 hover:bg-slate-50"
           >
-            Admin Dashboard
+            Settings
           </Link>
         </div>
       )}
@@ -126,189 +152,146 @@ const Navbar: React.FC<{ shopName: string }> = ({ shopName }) => {
 
 const Footer: React.FC<{ config: SiteConfig }> = ({ config }) => {
   return (
-    <footer className="bg-slate-100 border-t border-slate-200 pt-16 pb-8">
+    <footer className="bg-slate-100 border-t border-slate-200 pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-2">
-            <Logo className="mb-8 scale-75 origin-left" />
-            <p className="text-slate-600 max-w-sm mb-8">
-              Serving the Upper West Side for over 40 years. We specialize in repair, installation, and modernization of computers and electronics.
+            {/* 풋터 로고에서 흑백 스타일을 제거하여 헤더와 동일하게 컬러로 표현 */}
+            <Logo height="h-16 sm:h-20" className="mb-8" />
+            <p className="text-slate-500 max-w-sm mb-8 text-sm leading-relaxed">
+              Serving the Upper West Side for over 40 years. Precision tech repair, installations, and digital modernization services for home and business.
             </p>
           </div>
           <div>
-            <h3 className="text-slate-900 font-bold mb-6">Quick Links</h3>
-            <ul className="space-y-4 text-slate-600">
+            <h3 className="text-slate-900 font-bold mb-6 text-sm uppercase tracking-widest">Company</h3>
+            <ul className="space-y-4 text-slate-600 text-sm">
               <li><Link to="/" className="hover:text-brand-purple transition-colors">Home</Link></li>
               <li><Link to="/services" className="hover:text-brand-purple transition-colors">Services</Link></li>
               <li><Link to="/contact" className="hover:text-brand-purple transition-colors">Contact Us</Link></li>
+              <li><Link to="/admin" className="hover:text-brand-purple transition-colors">Admin Dashboard</Link></li>
             </ul>
           </div>
           <div>
-            <h3 className="text-slate-900 font-bold mb-6">Contact Info</h3>
+            <h3 className="text-slate-900 font-bold mb-6 text-sm uppercase tracking-widest">Connect</h3>
             <ul className="space-y-4 text-slate-600">
               <li className="flex items-center space-x-3">
-                <Phone size={18} className="text-brand-purple" />
-                <span className="font-medium text-slate-900">{config.phone}</span>
+                <Phone size={16} className="text-brand-purple" />
+                <span className="text-sm font-medium">{config.phone}</span>
               </li>
               <li className="flex items-center space-x-3">
-                <Smartphone size={18} className="text-brand-purple" />
-                <span className="font-medium text-slate-900">{config.textPhone} (SMS)</span>
+                <Mail size={16} className="text-brand-purple" />
+                <span className="text-sm font-medium break-all">{config.email}</span>
               </li>
               <li className="flex items-start space-x-3">
-                <MapPin size={18} className="text-brand-purple mt-1" />
-                <span className="text-sm">{config.address}</span>
+                <MapPin size={16} className="text-brand-purple mt-1 flex-shrink-0" />
+                <span className="text-sm font-medium leading-tight">{config.address}</span>
               </li>
             </ul>
           </div>
         </div>
-        <div className="border-t border-slate-200 pt-8 text-center text-slate-500 text-sm">
-          <p>© {new Date().getFullYear()} Shine Electronic & Computer. All rights reserved.</p>
+        <div className="pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-400 text-xs uppercase tracking-widest font-bold">
+          <p>© {new Date().getFullYear()} {config.shopName}. NYC Precision Service.</p>
+          <div className="flex space-x-8">
+            <a href="#" className="hover:text-brand-purple transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-brand-purple transition-colors">Terms of Service</a>
+          </div>
         </div>
       </div>
     </footer>
   );
 };
 
-const ServiceIcon: React.FC<{ type: string }> = ({ type }) => {
-  switch (type) {
-    case 'laptop': return <Laptop className="w-8 h-8" />;
-    case 'smartphone': return <Smartphone className="w-8 h-8" />;
-    case 'cpu': return <Cpu className="w-8 h-8" />;
-    case 'hard-drive': return <HardDrive className="w-8 h-8" />;
-    case 'shield': return <Shield className="w-8 h-8" />;
-    case 'network': return <Network className="w-8 h-8" />;
-    case 'tv': return <Tv className="w-8 h-8" />;
-    case 'database': return <Database className="w-8 h-8" />;
-    default: return <Settings className="w-8 h-8" />;
-  }
+// --- Pages & Sub-components ---
+
+const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
+  const icons: Record<string, any> = {
+    laptop: Laptop,
+    tv: Tv,
+    network: Network,
+    shield: Shield,
+    database: Database,
+    smartphone: Smartphone
+  };
+  const Icon = icons[service.icon] || Settings;
+
+  return (
+    <div className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
+      <div className="h-48 overflow-hidden relative">
+        <img 
+          src={service.imageUrl} 
+          alt={service.title} 
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+        />
+        <div className="absolute top-4 left-4 p-3 bg-white/90 backdrop-blur rounded-2xl text-brand-purple shadow-lg">
+          <Icon size={24} />
+        </div>
+      </div>
+      <div className="p-8">
+        <h3 className="text-xl font-black text-slate-900 mb-3 tracking-tight">{service.title}</h3>
+        <p className="text-slate-500 text-sm leading-relaxed mb-6">
+          {service.description}
+        </p>
+        <Link to="/contact" className="text-sm font-bold text-brand-purple flex items-center gap-2 group-hover:gap-3 transition-all">
+          Learn More <ArrowRight size={16} />
+        </Link>
+      </div>
+    </div>
+  );
 };
 
-// --- Pages ---
-
-const Home: React.FC<{ services: Service[], config: SiteConfig }> = ({ services, config }) => {
+const HomePage: React.FC<{ services: Service[], config: SiteConfig }> = ({ services, config }) => {
   return (
-    <div className="pt-20">
-      <section className="relative min-h-[80vh] flex items-center overflow-hidden bg-white">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-slate-50 hidden lg:block skew-x-[-15deg] transform translate-x-1/4"></div>
-          <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')]"></div>
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="animate-in fade-in slide-in-from-left-8 duration-700">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-purple/10 text-brand-purple text-xs font-bold mb-6 tracking-widest uppercase">
-              <span className="flex h-2 w-2 rounded-full bg-brand-purple animate-pulse"></span>
-              <span>NYC Premier Tech Shop</span>
-            </div>
-            <h1 className="text-5xl lg:text-7xl font-display font-extrabold text-slate-900 leading-[1.1] mb-6">
-              Expert Repair & <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-indigo-600">
-                Tech Solutions
+    <div className="pt-24">
+      <section className="relative overflow-hidden bg-white pt-16 pb-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
+            <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
+              <span className="inline-block px-4 py-1.5 rounded-full bg-brand-purple/10 text-brand-purple text-xs font-bold uppercase tracking-widest mb-6">
+                Established 1983
               </span>
-            </h1>
-            <p className="text-xl text-slate-600 mb-10 max-w-xl leading-relaxed">
-              Serving the Upper West Side since 1983. We offer professional computer repair, networking, and high-end home theater installations.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              <Link to="/contact" className="w-full sm:w-auto px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl shadow-xl transition-all transform hover:-translate-y-1 active:scale-95">
-                Book a Service
-              </Link>
-              <div className="flex items-center gap-2 text-slate-500 font-bold">
-                <CheckCircle className="text-brand-purple" size={18} />
-                <span>On-Site Estimates</span>
+              <h1 className="text-5xl sm:text-7xl font-black text-slate-900 tracking-tight mb-8 leading-[0.9]">
+                Expert Tech <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-indigo-600">
+                  Solutions.
+                </span>
+              </h1>
+              <p className="text-xl text-slate-500 mb-10 leading-relaxed font-medium">
+                {config.tagline}. From vintage audio repair to cutting-edge home networking and security systems.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 sm:justify-center lg:justify-start">
+                <Link to="/services" className="px-8 py-5 bg-slate-900 text-white rounded-2xl font-bold hover:bg-brand-purple transition-all shadow-xl shadow-slate-200 flex items-center justify-center gap-2 group">
+                  View Services <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link to="/contact" className="px-8 py-5 bg-white text-slate-900 border-2 border-slate-100 rounded-2xl font-bold hover:border-brand-purple transition-all flex items-center justify-center gap-2">
+                  Contact Us
+                </Link>
               </div>
             </div>
-          </div>
-          <div className="relative h-[500px] animate-in zoom-in fade-in duration-1000">
-             <div className="absolute top-0 right-0 w-full h-full grid grid-cols-2 grid-rows-2 gap-4">
-                <div className="rounded-3xl overflow-hidden shadow-2xl hover:scale-[1.02] transition-transform">
-                  <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&q=80&w=400" alt="Home Theater" className="w-full h-full object-cover" />
-                </div>
-                <div className="rounded-3xl overflow-hidden shadow-2xl hover:scale-[1.02] transition-transform translate-y-8">
-                  <img src="https://images.unsplash.com/photo-1591405351990-4726e331f141?auto=format&fit=crop&q=80&w=400" alt="Desktop PC" className="w-full h-full object-cover" />
-                </div>
-                <div className="rounded-3xl overflow-hidden shadow-2xl hover:scale-[1.02] transition-transform -translate-y-8">
-                  <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=400" alt="Networking" className="w-full h-full object-cover" />
-                </div>
-                <div className="rounded-3xl overflow-hidden shadow-2xl hover:scale-[1.02] transition-transform">
-                  <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&q=80&w=400" alt="Laptop Repair" className="w-full h-full object-cover" />
-                </div>
-             </div>
-             <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-white p-6 rounded-2xl shadow-2xl border border-slate-100 flex items-center space-x-4 w-64">
-                <div className="w-12 h-12 bg-brand-purple/10 rounded-full flex items-center justify-center text-brand-purple">
-                  <Shield size={24} />
-                </div>
-                <div>
-                  <p className="font-bold text-slate-900">Trusted NYC Pro</p>
-                  <p className="text-xs text-slate-500">Authorized & Insured</p>
-                </div>
-             </div>
+            <div className="mt-16 lg:mt-0 lg:col-span-6">
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gradient-to-r from-brand-purple/20 to-indigo-600/20 blur-2xl rounded-3xl"></div>
+                <img 
+                  src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=1200" 
+                  alt="Tech repair" 
+                  className="relative rounded-3xl shadow-2xl object-cover aspect-[4/3]"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-slate-50">
+      <section className="py-32 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-5xl font-display font-bold text-slate-900 mb-4">Our Expertise</h2>
-            <div className="w-20 h-1.5 bg-brand-purple mx-auto mb-6 rounded-full"></div>
-            <p className="text-slate-600 max-w-2xl mx-auto text-lg">Comprehensive technology solutions for your home and business.</p>
+          <div className="text-center mb-20">
+            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">Professional Services</h2>
+            <div className="h-1.5 w-24 bg-brand-purple mx-auto rounded-full"></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => (
-              <div key={service.id} className="group overflow-hidden bg-white border border-slate-200 rounded-[2rem] hover:border-brand-purple/30 transition-all hover:shadow-2xl">
-                <div className="h-48 relative overflow-hidden">
-                   <img src={service.imageUrl} alt={service.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                   <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent"></div>
-                </div>
-                <div className="p-8 pt-0 relative z-10">
-                  <div className="w-14 h-14 bg-white shadow-lg rounded-2xl flex items-center justify-center text-brand-purple mb-6 -mt-7">
-                    <ServiceIcon type={service.icon} />
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-4">{service.title}</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                    {service.description}
-                  </p>
-                  <Link to="/contact" className="text-brand-purple font-extrabold flex items-center gap-2 group-hover:gap-4 transition-all uppercase text-xs tracking-widest">
-                    Request Details <ArrowRight size={16} />
-                  </Link>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {services.slice(0, 3).map((service) => (
+              <ServiceCard key={service.id} service={service} />
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-           <div className="space-y-10">
-              <h2 className="text-4xl font-display font-bold text-slate-900">Serving New Yorkers Since 1983</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 hover:border-brand-purple/20 transition-colors">
-                  <div className="text-brand-purple mb-4"><Network size={32} /></div>
-                  <h4 className="text-slate-900 font-bold text-lg mb-2">Network Experts</h4>
-                  <p className="text-slate-600 text-sm">Low-latency infrastructure for both residential and commercial properties.</p>
-                </div>
-                <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 hover:border-brand-purple/20 transition-colors">
-                  <div className="text-brand-purple mb-4"><Tv size={32} /></div>
-                  <h4 className="text-slate-900 font-bold text-lg mb-2">Theater Pro</h4>
-                  <p className="text-slate-600 text-sm">Integration with the latest audiovisual technology for immersive experiences.</p>
-                </div>
-              </div>
-           </div>
-           <div className="bg-slate-900 p-12 rounded-[3rem] text-white shadow-2xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-brand-purple/10 blur-[100px]"></div>
-              <div className="relative z-10">
-                <p className="text-brand-purple font-bold mb-4 tracking-[0.2em] uppercase text-sm">Verified Testimonial</p>
-                <h3 className="text-2xl font-serif italic mb-8 leading-relaxed">"Shine is a neighborhood staple. They modernized my entire office network and converted years of family VHS tapes to digital video perfectly. Professional and fast."</h3>
-                <div className="flex items-center gap-4">
-                   <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center font-bold text-brand-purple">RM</div>
-                   <div>
-                      <p className="font-bold">Robert M.</p>
-                      <p className="text-slate-400 text-xs">UWS Resident</p>
-                   </div>
-                </div>
-              </div>
-           </div>
         </div>
       </section>
     </div>
@@ -317,23 +300,17 @@ const Home: React.FC<{ services: Service[], config: SiteConfig }> = ({ services,
 
 const ServicesPage: React.FC<{ services: Service[] }> = ({ services }) => {
   return (
-    <div className="pt-32 pb-24 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <h1 className="text-5xl font-display font-bold text-slate-900 mb-12 text-center">Comprehensive Tech Services</h1>
+    <div className="pt-32 pb-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-20">
+          <h1 className="text-5xl font-black text-slate-900 mb-6 tracking-tight">Our Services</h1>
+          <p className="text-xl text-slate-500 max-w-2xl leading-relaxed">
+            Comprehensive technology solutions for your home and office. We combine decades of experience with modern expertise.
+          </p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map(s => (
-            <div key={s.id} className="group bg-white rounded-3xl overflow-hidden border border-slate-200 hover:border-brand-purple/40 transition-all shadow-sm hover:shadow-xl">
-              <div className="h-56 relative">
-                <img src={s.imageUrl} alt={s.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent"></div>
-                <div className="absolute bottom-6 left-8 text-brand-purple"><ServiceIcon type={s.icon} /></div>
-              </div>
-              <div className="p-8 pt-0">
-                <h2 className="text-2xl font-bold text-slate-900 mb-4">{s.title}</h2>
-                <p className="text-slate-600 mb-8 leading-relaxed">{s.description}</p>
-                <Link to="/contact" className="block w-full py-4 bg-slate-100 hover:bg-brand-purple hover:text-white text-slate-900 text-center rounded-xl transition-all font-bold">Inquire Now</Link>
-              </div>
-            </div>
+          {services.map((service) => (
+            <ServiceCard key={service.id} service={service} />
           ))}
         </div>
       </div>
@@ -342,245 +319,180 @@ const ServicesPage: React.FC<{ services: Service[] }> = ({ services }) => {
 };
 
 const ContactPage: React.FC<{ config: SiteConfig }> = ({ config }) => {
-  const [submitted, setSubmitted] = useState(false);
-  
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
-  };
-
   return (
-    <div className="pt-32 pb-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 mb-20">
+    <div className="pt-32 pb-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           <div>
-            <h1 className="text-5xl font-display font-bold text-slate-900 mb-6 tracking-tight">Visit Our NYC Shop</h1>
-            <p className="text-slate-600 text-lg mb-12 leading-relaxed">
-              Located on the Upper West Side, we're here to solve all your electronic, computer, and security needs.
+            <h1 className="text-5xl font-black text-slate-900 mb-8 tracking-tight text-brand-purple">Get In Touch</h1>
+            <p className="text-xl text-slate-500 mb-12 leading-relaxed">
+              Have a question or need a repair? Contact us today. We're conveniently located on the Upper West Side.
             </p>
+            
             <div className="space-y-8">
-              <div className="flex items-start gap-6 group">
-                <div className="p-4 bg-slate-100 rounded-2xl text-brand-purple"><MapPin /></div>
+              <div className="flex items-start space-x-6">
+                <div className="p-4 bg-brand-purple/10 rounded-2xl text-brand-purple">
+                  <Phone size={24} />
+                </div>
                 <div>
-                  <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Address</p>
-                  <p className="text-slate-900 font-bold text-lg">{config.address}</p>
-                  <p className="text-slate-500 text-sm">Mon-Fri: 10am - 7pm | Sat: 11am - 5pm</p>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">Call Us</h3>
+                  <p className="text-slate-600 font-medium">{config.phone}</p>
+                  <p className="text-slate-400 text-sm">Text: {config.textPhone}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-6 group">
-                <div className="p-4 bg-slate-100 rounded-2xl text-brand-purple"><Phone /></div>
+              <div className="flex items-start space-x-6">
+                <div className="p-4 bg-brand-purple/10 rounded-2xl text-brand-purple">
+                  <Mail size={24} />
+                </div>
                 <div>
-                  <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Call Us</p>
-                  <p className="text-slate-900 font-bold text-lg">{config.phone}</p>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">Email Us</h3>
+                  <p className="text-slate-600 font-medium">{config.email}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-6 group">
-                <div className="p-4 bg-slate-100 rounded-2xl text-brand-purple"><Smartphone /></div>
+              <div className="flex items-start space-x-6">
+                <div className="p-4 bg-brand-purple/10 rounded-2xl text-brand-purple">
+                  <MapPin size={24} />
+                </div>
                 <div>
-                  <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Text Updates (SMS)</p>
-                  <p className="text-slate-900 font-bold text-lg">{config.textPhone}</p>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">Visit Us</h3>
+                  <p className="text-slate-600 font-medium">{config.address}</p>
+                  <p className="text-slate-400 text-sm">New York, NY 10024</p>
                 </div>
               </div>
             </div>
           </div>
-          <form onSubmit={handleSubmit} className="bg-slate-50 p-10 rounded-[2.5rem] border border-slate-100 shadow-sm">
-            {submitted ? (
-              <div className="h-full flex flex-col items-center justify-center text-center space-y-4 py-12">
-                <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4">
-                  <CheckCircle size={40} />
+          
+          <div className="bg-slate-50 p-10 rounded-[2.5rem] border border-slate-100 shadow-sm">
+            <h2 className="text-2xl font-black text-slate-900 mb-8 tracking-tight">Send a Message</h2>
+            <form className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">Name</label>
+                  <input type="text" className="w-full px-6 py-4 rounded-2xl border-2 border-slate-100 focus:border-brand-purple outline-none transition-all font-medium" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900">Message Sent!</h3>
-                <p className="text-slate-600">Our tech specialists will get back to you within 24 hours.</p>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">Email</label>
+                  <input type="email" className="w-full px-6 py-4 rounded-2xl border-2 border-slate-100 focus:border-brand-purple outline-none transition-all font-medium" />
+                </div>
               </div>
-            ) : (
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-slate-500 text-xs font-bold uppercase mb-2">Name</label>
-                  <input required type="text" placeholder="Your Name" className="w-full bg-white border border-slate-200 rounded-xl p-4 text-slate-900 focus:ring-2 ring-brand-purple/20 focus:border-brand-purple outline-none transition-all" />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-slate-500 text-xs font-bold uppercase mb-2">Email</label>
-                    <input required type="email" placeholder="email@example.com" className="w-full bg-white border border-slate-200 rounded-xl p-4 text-slate-900 focus:ring-2 ring-brand-purple/20 focus:border-brand-purple outline-none transition-all" />
-                  </div>
-                  <div>
-                    <label className="block text-slate-500 text-xs font-bold uppercase mb-2">Service</label>
-                    <select className="w-full bg-white border border-slate-200 rounded-xl p-4 text-slate-900 focus:ring-2 ring-brand-purple/20 focus:border-brand-purple outline-none transition-all">
-                      <option>Computer Repair</option>
-                      <option>TV/Home Theater</option>
-                      <option>Media Conversion</option>
-                      <option>Security/CCTV</option>
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-slate-500 text-xs font-bold uppercase mb-2">Project Details</label>
-                  <textarea rows={4} placeholder="Describe the issue or project..." className="w-full bg-white border border-slate-200 rounded-xl p-4 text-slate-900 focus:ring-2 ring-brand-purple/20 focus:border-brand-purple outline-none transition-all"></textarea>
-                </div>
-                <button type="submit" className="w-full py-5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold rounded-xl shadow-xl transition-all transform active:scale-[0.98] uppercase tracking-widest">
-                  Send Inquiry
-                </button>
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">Subject</label>
+                <input type="text" className="w-full px-6 py-4 rounded-2xl border-2 border-slate-100 focus:border-brand-purple outline-none transition-all font-medium" />
               </div>
-            )}
-          </form>
-        </div>
-        <div className="w-full h-[450px] rounded-[3rem] overflow-hidden border border-slate-200 shadow-2xl relative">
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.921387606774!2d-73.97828062341498!3d40.78572417138342!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2588f018e692b%3A0xc3f124c653655325!2s137%20W%2083rd%20St%2C%20New%20York%2C%20NY%2010024!5e0!3m2!1sen!2sus!4v1709400000000!5m2!1sen!2sus" 
-            width="100%" 
-            height="100%" 
-            style={{ border: 0 }} 
-            allowFullScreen={true} 
-            loading="lazy" 
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Shine Electronic Map"
-          ></iframe>
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">Message</label>
+                <textarea rows={5} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-100 focus:border-brand-purple outline-none transition-all font-medium resize-none"></textarea>
+              </div>
+              <button type="button" className="w-full py-5 bg-brand-purple text-white rounded-2xl font-bold hover:bg-slate-900 transition-all shadow-lg shadow-brand-purple/20">
+                Send Message
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-const AdminDashboard: React.FC<{ 
-  services: Service[], 
-  setServices: React.Dispatch<React.SetStateAction<Service[]>>,
-  config: SiteConfig,
-  setConfig: React.Dispatch<React.SetStateAction<SiteConfig>>
-}> = ({ services, setServices, config, setConfig }) => {
-  const [activeTab, setActiveTab] = useState<'config' | 'services'>('config');
-
-  const updateConfig = (field: string, value: string) => {
-    setConfig(prev => ({ ...prev, [field]: value }));
-  };
-
-  const deleteService = (id: string) => {
-    setServices(services.filter(s => s.id !== id));
-  };
-
-  const addService = () => {
-    const newService: Service = {
-      id: Date.now().toString(),
-      title: "New Service",
-      description: "Service description goes here.",
-      icon: "settings"
-    };
-    setServices([...services, newService]);
-  };
-
+const AdminPage: React.FC<{ 
+  config: SiteConfig, 
+  setConfig: (c: SiteConfig) => void,
+  services: Service[],
+  setServices: (s: Service[]) => void
+}> = ({ config, setConfig, services, setServices }) => {
   return (
-    <div className="pt-32 pb-24 max-w-7xl mx-auto px-4">
-      <div className="bg-white rounded-[2.5rem] border border-slate-200 overflow-hidden shadow-2xl">
-        <div className="flex border-b border-slate-200">
-          <button onClick={() => setActiveTab('config')} className={`px-10 py-6 font-bold ${activeTab === 'config' ? 'bg-slate-50 text-brand-purple' : 'text-slate-400 hover:text-slate-600'}`}>General Config</button>
-          <button onClick={() => setActiveTab('services')} className={`px-10 py-6 font-bold ${activeTab === 'services' ? 'bg-slate-50 text-brand-purple' : 'text-slate-400 hover:text-slate-600'}`}>Manage Services</button>
-        </div>
-        <div className="p-10">
-          {activeTab === 'config' && (
-            <div className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <label className="block text-slate-500 text-xs font-bold uppercase mb-2">Shop Name</label>
-                  <input type="text" value={config.shopName} onChange={(e) => updateConfig('shopName', e.target.value)} className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-slate-900" />
-                </div>
-                <div>
-                  <label className="block text-slate-500 text-xs font-bold uppercase mb-2">Tagline</label>
-                  <input type="text" value={config.tagline} onChange={(e) => updateConfig('tagline', e.target.value)} className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-slate-900" />
-                </div>
-                <div>
-                  <label className="block text-slate-500 text-xs font-bold uppercase mb-2">Phone</label>
-                  <input type="text" value={config.phone} onChange={(e) => updateConfig('phone', e.target.value)} className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-slate-900" />
-                </div>
-                <div>
-                  <label className="block text-slate-500 text-xs font-bold uppercase mb-2">SMS Phone</label>
-                  <input type="text" value={config.textPhone} onChange={(e) => updateConfig('textPhone', e.target.value)} className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-slate-900" />
-                </div>
-                <div className="col-span-1 md:col-span-2">
-                  <label className="block text-slate-500 text-xs font-bold uppercase mb-2">Address</label>
-                  <input type="text" value={config.address} onChange={(e) => updateConfig('address', e.target.value)} className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-slate-900" />
-                </div>
+    <div className="pt-32 pb-32">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="text-4xl font-black text-slate-900 mb-12 tracking-tight">Admin Dashboard</h1>
+        
+        <div className="space-y-12">
+          <section className="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-sm">
+            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+              <Settings size={24} className="text-brand-purple" /> General Settings
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Shop Name</label>
+                <input 
+                  type="text" 
+                  value={config.shopName}
+                  onChange={(e) => setConfig({ ...config, shopName: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-purple outline-none"
+                />
               </div>
-              <button className="px-10 py-4 bg-brand-purple text-white rounded-xl font-bold shadow-lg">Save Settings</button>
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Tagline</label>
+                <input 
+                  type="text" 
+                  value={config.tagline}
+                  onChange={(e) => setConfig({ ...config, tagline: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-purple outline-none"
+                />
+              </div>
             </div>
-          )}
-          {activeTab === 'services' && (
-            <div>
-              <div className="flex justify-between items-center mb-10">
-                <h3 className="text-2xl font-bold text-slate-900">Expertise Areas</h3>
-                <button onClick={addService} className="flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl hover:bg-slate-800 transition-all">
-                  <PlusCircle size={20} /> Add New
-                </button>
-              </div>
-              <div className="space-y-4">
-                {services.map(s => (
-                  <div key={s.id} className="flex items-center justify-between p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                    <div className="flex items-center gap-6">
-                      <div className="text-brand-purple bg-white p-3 rounded-xl shadow-sm"><ServiceIcon type={s.icon} /></div>
-                      <div>
-                        <h4 className="text-slate-900 font-bold">{s.title}</h4>
-                        <p className="text-slate-500 text-sm truncate max-w-md">{s.description}</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-4">
-                      <button className="text-slate-400 hover:text-brand-purple"><Edit2 size={20} /></button>
-                      <button onClick={() => deleteService(s.id)} className="text-slate-400 hover:text-red-500"><Trash2 size={20} /></button>
+          </section>
+
+          <section className="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-sm">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                <Database size={24} className="text-brand-purple" /> Services
+              </h2>
+              <button className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-brand-purple transition-colors">
+                <PlusCircle size={18} /> Add Service
+              </button>
+            </div>
+            <div className="space-y-4">
+              {services.map((service) => (
+                <div key={service.id} className="flex items-center justify-between p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                  <div className="flex items-center gap-4">
+                    <img src={service.imageUrl} alt={service.title} className="w-12 h-12 rounded-lg object-cover" />
+                    <div>
+                      <h4 className="font-bold text-slate-900">{service.title}</h4>
+                      <p className="text-xs text-slate-500">{service.icon}</p>
                     </div>
                   </div>
-                ))}
-              </div>
+                  <div className="flex gap-2">
+                    <button className="p-2 text-slate-400 hover:text-brand-purple hover:bg-white rounded-lg transition-all"><Edit2 size={18} /></button>
+                    <button className="p-2 text-slate-400 hover:text-red-500 hover:bg-white rounded-lg transition-all"><Trash2 size={18} /></button>
+                  </div>
+                </div>
+              ))}
             </div>
-          )}
+          </section>
         </div>
       </div>
     </div>
   );
 };
 
-// --- Main App ---
+// --- Main App Component ---
 
-export default function App() {
+const App: React.FC = () => {
+  const [siteConfig, setSiteConfig] = useState<SiteConfig>(INITIAL_SITE_CONFIG);
   const [services, setServices] = useState<Service[]>(INITIAL_SERVICES);
-  const [config, setConfig] = useState<SiteConfig>(INITIAL_SITE_CONFIG);
 
   useEffect(() => {
-    const savedServices = localStorage.getItem('shine_v2_services');
-    const savedConfig = localStorage.getItem('shine_v2_config');
-    if (savedServices) setServices(JSON.parse(savedServices));
-    if (savedConfig) setConfig(JSON.parse(savedConfig));
+    window.scrollTo(0, 0);
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem('shine_v2_services', JSON.stringify(services));
-    localStorage.setItem('shine_v2_config', JSON.stringify(config));
-    document.title = `${config.shopName} | NYC Premier Tech Services`;
-  }, [services, config]);
 
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-brand-purple selection:text-white">
-        <Navbar shopName={config.shopName} />
+      <div className="min-h-screen bg-white flex flex-col font-sans selection:bg-brand-purple/20 selection:text-brand-purple">
+        <Navbar shopName={siteConfig.shopName} />
+        
         <main className="flex-grow">
-          <div className="w-full">
-            <Routes>
-              <Route path="/" element={<Home services={services} config={config} />} />
-              <Route path="/services" element={<ServicesPage services={services} />} />
-              <Route path="/contact" element={<ContactPage config={config} />} />
-              <Route path="/admin" element={
-                <AdminDashboard 
-                  services={services} 
-                  setServices={setServices} 
-                  config={config} 
-                  setConfig={setConfig} 
-                />
-              } />
-            </Routes>
-          </div>
+          <Routes>
+            <Route path="/" element={<HomePage services={services} config={siteConfig} />} />
+            <Route path="/services" element={<ServicesPage services={services} />} />
+            <Route path="/contact" element={<ContactPage config={siteConfig} />} />
+            <Route path="/admin" element={<AdminPage config={siteConfig} setConfig={setSiteConfig} services={services} setServices={setServices} />} />
+          </Routes>
         </main>
-        <Footer config={config} />
-        <Link to="/contact" className="fixed bottom-6 right-6 z-50 p-5 bg-brand-purple text-white rounded-full shadow-2xl md:hidden transform active:scale-90 transition-transform">
-          <MessageSquare size={24} />
-        </Link>
+
+        <Footer config={siteConfig} />
       </div>
     </Router>
   );
-}
+};
+
+export default App;
