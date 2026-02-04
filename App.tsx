@@ -13,17 +13,41 @@ import { INITIAL_SERVICES, INITIAL_SITE_CONFIG } from './constants.tsx';
 
 const Logo: React.FC<{ className?: string }> = ({ className = "" }) => {
   return (
-    <div className={`relative flex items-center ${className}`}>
-      <svg width="60" height="50" viewBox="0 0 100 85" className="mr-3">
-        <circle cx="50" cy="30" r="28" fill="#00FF00" fillOpacity="0.75" />
-        <circle cx="32" cy="55" r="28" fill="#FF0000" fillOpacity="0.75" />
-        <circle cx="68" cy="55" r="28" fill="#0000FF" fillOpacity="0.75" />
+    <div className={`flex items-center gap-2 sm:gap-3 whitespace-nowrap overflow-visible ${className}`}>
+      {/* "shine" in lowercase serif */}
+      <span className="text-2xl sm:text-3xl font-serif text-slate-900 lowercase tracking-tight">
+        shine
+      </span>
+      
+      {/* Three Slanted Bars (Red, Green, Blue) precisely matching the attachment */}
+      <svg width="42" height="28" viewBox="0 0 42 28" className="flex-shrink-0 drop-shadow-sm">
+        {/* Red Bar */}
+        <rect 
+          x="4" y="2" width="26" height="4.5" 
+          fill="#FF0000" 
+          transform="rotate(-25 15 6)" 
+          rx="0.5"
+        />
+        {/* Green Bar */}
+        <rect 
+          x="4" y="11" width="26" height="4.5" 
+          fill="#00FF00" 
+          transform="rotate(-25 15 14)" 
+          rx="0.5"
+        />
+        {/* Blue Bar */}
+        <rect 
+          x="4" y="20" width="26" height="4.5" 
+          fill="#0000FF" 
+          transform="rotate(-25 15 22)" 
+          rx="0.5"
+        />
       </svg>
-      <div className="flex flex-col leading-none">
-        <span className="text-xl font-serif font-bold text-slate-900 tracking-tight">shine</span>
-        <span className="text-2xl font-serif font-bold text-slate-900 tracking-tighter -mt-1 uppercase">Electronic</span>
-        <span className="text-[10px] font-sans font-extrabold text-brand-purple tracking-[0.2em] mt-0.5 uppercase">& COMPUTER</span>
-      </div>
+      
+      {/* "electronic & computer" in lowercase serif */}
+      <span className="text-2xl sm:text-3xl font-serif text-slate-900 lowercase tracking-tight">
+        electronic & computer
+      </span>
     </div>
   );
 };
@@ -41,11 +65,11 @@ const Navbar: React.FC<{ shopName: string }> = ({ shopName }) => {
   return (
     <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          <Link to="/" className="hover:opacity-90 transition-opacity">
-            <Logo className="scale-90 origin-left" />
+        <div className="flex items-center justify-between h-24">
+          <Link to="/" className="hover:opacity-95 transition-opacity flex-shrink-0">
+            <Logo className="scale-[0.65] xs:scale-75 sm:scale-90 md:scale-100 origin-left" />
           </Link>
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <div className="ml-10 flex items-center space-x-8">
               {links.map((link) => (
                 <Link
@@ -63,7 +87,7 @@ const Navbar: React.FC<{ shopName: string }> = ({ shopName }) => {
               </Link>
             </div>
           </div>
-          <div className="md:hidden flex items-center">
+          <div className="lg:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-slate-600 hover:text-brand-purple focus:outline-none"
@@ -76,7 +100,7 @@ const Navbar: React.FC<{ shopName: string }> = ({ shopName }) => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 px-2 pt-2 pb-3 space-y-1 shadow-xl">
+        <div className="lg:hidden bg-white border-b border-slate-200 px-2 pt-2 pb-3 space-y-1 shadow-xl">
           {links.map((link) => (
             <Link
               key={link.name}
@@ -106,7 +130,7 @@ const Footer: React.FC<{ config: SiteConfig }> = ({ config }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-2">
-            <Logo className="mb-8 origin-left" />
+            <Logo className="mb-8 scale-75 origin-left" />
             <p className="text-slate-600 max-w-sm mb-8">
               Serving the Upper West Side for over 40 years. We specialize in repair, installation, and modernization of computers and electronics.
             </p>
@@ -536,19 +560,21 @@ export default function App() {
       <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-brand-purple selection:text-white">
         <Navbar shopName={config.shopName} />
         <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home services={services} config={config} />} />
-            <Route path="/services" element={<ServicesPage services={services} />} />
-            <Route path="/contact" element={<ContactPage config={config} />} />
-            <Route path="/admin" element={
-              <AdminDashboard 
-                services={services} 
-                setServices={setServices} 
-                config={config} 
-                setConfig={setConfig} 
-              />
-            } />
-          </Routes>
+          <div className="w-full">
+            <Routes>
+              <Route path="/" element={<Home services={services} config={config} />} />
+              <Route path="/services" element={<ServicesPage services={services} />} />
+              <Route path="/contact" element={<ContactPage config={config} />} />
+              <Route path="/admin" element={
+                <AdminDashboard 
+                  services={services} 
+                  setServices={setServices} 
+                  config={config} 
+                  setConfig={setConfig} 
+                />
+              } />
+            </Routes>
+          </div>
         </main>
         <Footer config={config} />
         <Link to="/contact" className="fixed bottom-6 right-6 z-50 p-5 bg-brand-purple text-white rounded-full shadow-2xl md:hidden transform active:scale-90 transition-transform">
