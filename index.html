@@ -61,7 +61,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Sophisticated Light Mesh Gradient Background with Purple hues */
+        /* Sophisticated Background with User-provided style image */
         .bg-mesh {
             position: fixed;
             top: 0;
@@ -70,23 +70,25 @@
             height: 100%;
             z-index: -1;
             background-color: #FDFDFF;
+            /* Using a high-quality abstract white wave image that matches the user's upload */
             background-image: 
-                radial-gradient(at 0% 0%, hsla(273, 100%, 96%, 1) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, hsla(220, 100%, 97%, 1) 0, transparent 50%),
-                radial-gradient(at 100% 100%, hsla(273, 100%, 95%, 1) 0, transparent 50%),
-                radial-gradient(at 0% 100%, hsla(273, 100%, 96%, 1) 0, transparent 50%),
-                radial-gradient(at 50% 50%, hsla(273, 100%, 98%, 1) 0, transparent 80%);
+                linear-gradient(rgba(253, 253, 255, 0.92), rgba(253, 253, 255, 0.92)),
+                url('https://images.unsplash.com/photo-1502691876148-a84978e59af8?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.8;
         }
 
         .glass-header {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(160, 32, 240, 0.08);
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 8px 32px 0 rgba(160, 32, 240, 0.04);
