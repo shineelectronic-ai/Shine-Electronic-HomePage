@@ -266,11 +266,8 @@ const HomePage: React.FC<{ services: Service[], posts: BlogPost[], config: SiteC
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Animated Background Blobs for Luxury Light Feel */}
-        <div className="absolute top-20 right-[-10%] w-[800px] h-[800px] bg-brand-purple/5 blur-[120px] rounded-full animate-float opacity-70"></div>
-        <div className="absolute bottom-[-10%] left-[-10%] w-[700px] h-[700px] bg-blue-400/5 blur-[100px] rounded-full animate-pulse-slow"></div>
-
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-white">
+        {/* 모든 배경 블롭 및 장식 요소 제거 */}
         <div className="max-w-7xl mx-auto px-6 relative z-10 w-full pt-32 pb-20">
           <div className="lg:grid lg:grid-cols-12 lg:gap-20 items-center">
             <div className="lg:col-span-8 space-y-12">
@@ -315,7 +312,7 @@ const HomePage: React.FC<{ services: Service[], posts: BlogPost[], config: SiteC
       </section>
 
       {/* Services Section */}
-      <section className="py-40 relative">
+      <section className="py-40 relative bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-32 gap-12">
             <div className="max-w-2xl space-y-6">
@@ -334,7 +331,7 @@ const HomePage: React.FC<{ services: Service[], posts: BlogPost[], config: SiteC
       </section>
 
       {/* Featured Articles */}
-      <section className="py-40 bg-slate-50/50">
+      <section className="py-40 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-20 gap-8">
               <h2 className="text-4xl font-black text-slate-900 tracking-tighter uppercase tracking-[0.1em]">The Technology Journal</h2>
@@ -347,9 +344,8 @@ const HomePage: React.FC<{ services: Service[], posts: BlogPost[], config: SiteC
       </section>
 
       {/* Testimonial Section */}
-      <section className="py-40">
+      <section className="py-40 bg-white">
         <div className="max-w-7xl mx-auto px-6 glass-card rounded-[4rem] p-16 md:p-32 border border-slate-100 shadow-2xl relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-96 h-96 bg-brand-purple/5 blur-[120px] rounded-full"></div>
            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               <div className="space-y-12">
                  <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-none italic">Modern Heritage. <br /><span className="text-brand-purple">Zero Compromise.</span></h2>
@@ -385,7 +381,7 @@ const HomePage: React.FC<{ services: Service[], posts: BlogPost[], config: SiteC
 
 const ServicesPage: React.FC<{ services: Service[] }> = ({ services }) => {
   return (
-    <div className="pt-48 pb-40">
+    <div className="pt-48 pb-40 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-4xl mb-40 space-y-10">
           <h1 className="text-7xl md:text-[8rem] font-black text-slate-900 tracking-tighter leading-none">The Service <br /><span className="text-brand-purple">Suite.</span></h1>
@@ -405,7 +401,7 @@ const ServicesPage: React.FC<{ services: Service[] }> = ({ services }) => {
 
 const ContactPage: React.FC<{ config: SiteConfig }> = ({ config }) => {
   return (
-    <div className="pt-48 pb-40">
+    <div className="pt-48 pb-40 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-start">
           <div className="space-y-16">
@@ -435,15 +431,15 @@ const ContactPage: React.FC<{ config: SiteConfig }> = ({ config }) => {
             <form className="space-y-10">
               <div className="space-y-3">
                 <label className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 ml-1">Client Identity</label>
-                <input type="text" placeholder="Full Name" className="w-full px-8 py-5 rounded-[1.5rem] border border-slate-100 bg-slate-50/50 focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/5 outline-none transition-all font-bold text-slate-900 placeholder-slate-300" />
+                <input type="text" placeholder="Full Name" className="w-full px-8 py-5 rounded-[1.5rem] border border-slate-100 bg-slate-50 focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/5 outline-none transition-all font-bold text-slate-900 placeholder-slate-300" />
               </div>
               <div className="space-y-3">
                 <label className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 ml-1">Digital Channel</label>
-                <input type="email" placeholder="Email Address" className="w-full px-8 py-5 rounded-[1.5rem] border border-slate-100 bg-slate-50/50 focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/5 outline-none transition-all font-bold text-slate-900 placeholder-slate-300" />
+                <input type="email" placeholder="Email Address" className="w-full px-8 py-5 rounded-[1.5rem] border border-slate-100 bg-slate-50 focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/5 outline-none transition-all font-bold text-slate-900 placeholder-slate-300" />
               </div>
               <div className="space-y-3">
                 <label className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 ml-1">Requirement Brief</label>
-                <textarea rows={5} placeholder="Describe the diagnostic requirement..." className="w-full px-8 py-5 rounded-[1.5rem] border border-slate-100 bg-slate-50/50 focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/5 outline-none transition-all font-bold text-slate-900 placeholder-slate-300 resize-none"></textarea>
+                <textarea rows={5} placeholder="Describe the diagnostic requirement..." className="w-full px-8 py-5 rounded-[1.5rem] border border-slate-100 bg-slate-50 focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/5 outline-none transition-all font-bold text-slate-900 placeholder-slate-300 resize-none"></textarea>
               </div>
               <button type="button" className="w-full py-7 bg-slate-900 text-white rounded-[1.5rem] font-black uppercase tracking-[0.3em] text-[10px] hover:bg-brand-purple transition-all shadow-xl">
                 Transmit Protocol
@@ -458,7 +454,7 @@ const ContactPage: React.FC<{ config: SiteConfig }> = ({ config }) => {
 
 const BlogPage: React.FC<{ posts: BlogPost[] }> = ({ posts }) => {
   return (
-    <div className="pt-48 pb-40">
+    <div className="pt-48 pb-40 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-4xl mb-32 space-y-10">
           <h1 className="text-7xl md:text-[8rem] font-black text-slate-900 tracking-tighter leading-none">The <br /><span className="text-brand-purple">Journal.</span></h1>
@@ -489,7 +485,7 @@ const AdminPage: React.FC<{
   const [activeTab, setActiveTab] = useState<'general' | 'services' | 'blog' | 'theme'>('general');
 
   return (
-    <div className="pt-48 pb-40">
+    <div className="pt-48 pb-40 bg-white">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-16 gap-8">
            <div className="space-y-3">
@@ -639,7 +635,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <div className="min-h-screen bg-transparent flex flex-col font-sans selection:bg-brand-purple selection:text-white">
+      <div className="min-h-screen bg-white flex flex-col font-sans selection:bg-brand-purple selection:text-white">
         <Navbar shopName={siteConfig.shopName} />
         
         <main className="flex-grow">

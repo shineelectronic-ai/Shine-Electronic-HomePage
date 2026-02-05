@@ -36,7 +36,6 @@
                     animation: {
                         'float': 'float 8s ease-in-out infinite',
                         'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'wave': 'wave 15s linear infinite',
                     },
                     keyframes: {
                         float: {
@@ -56,20 +55,9 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 깔끔한 배경을 위해 복잡한 이미지는 제거하고 은은한 포인트 조명만 남김 */
-        .bg-glow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at 80% 20%, rgba(160, 32, 240, 0.03) 0%, transparent 40%),
-                        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 40%);
-        }
-
+        /* 순백색 배경을 위해 모든 배경 장식 요소 제거 */
         .glass-header {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -77,8 +65,8 @@
 
         .glass-card {
             background: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.04);
-            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 25px -5px rgba(0, 0, 0, 0.03);
         }
 
         .text-balance {
@@ -87,9 +75,9 @@
 
         .premium-shadow-hover:hover {
             box-shadow: 
-                0 30px 60px -12px rgba(160, 32, 240, 0.08),
-                0 18px 36px -18px rgba(0, 0, 0, 0.1);
-            border-color: rgba(160, 32, 240, 0.1);
+                0 35px 70px -15px rgba(160, 32, 240, 0.07),
+                0 20px 40px -20px rgba(0, 0, 0, 0.1);
+            border-color: rgba(160, 32, 240, 0.15);
             transform: translateY(-8px);
         }
 
@@ -121,7 +109,6 @@
 </script>
 </head>
 <body class="selection:bg-brand-purple/20 selection:text-brand-purple">
-    <div class="bg-glow"></div>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
 </body>
