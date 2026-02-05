@@ -16,7 +16,7 @@
                             purple: '#A020F0',
                             'purple-light': '#B861FF',
                             'purple-dark': '#7D12C4',
-                            'light-bg': '#FDFDFF',
+                            'light-bg': '#FFFFFF',
                         },
                         slate: {
                             50: '#f8fafc',
@@ -42,11 +42,6 @@
                         float: {
                             '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
                             '50%': { transform: 'translateY(-20px) rotate(1deg)' },
-                        },
-                        wave: {
-                            '0%': { transform: 'translateX(0) scale(1)' },
-                            '50%': { transform: 'translateX(-5%) scale(1.1)' },
-                            '100%': { transform: 'translateX(0) scale(1)' },
                         }
                     }
                 }
@@ -55,73 +50,58 @@
     </script>
     <style>
         body {
-            background-color: #FDFDFF;
+            background-color: #ffffff;
             color: #0f172a;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Sophisticated Background with User-provided style image */
-        .bg-mesh {
+        /* 깔끔한 배경을 위해 복잡한 이미지는 제거하고 은은한 포인트 조명만 남김 */
+        .bg-glow {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-color: #FDFDFF;
-            /* Using a high-quality abstract white wave image that matches the user's upload */
-            background-image: 
-                linear-gradient(rgba(253, 253, 255, 0.92), rgba(253, 253, 255, 0.92)),
-                url('https://images.unsplash.com/photo-1502691876148-a84978e59af8?auto=format&fit=crop&q=80&w=2000');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            opacity: 0.8;
+            background: radial-gradient(circle at 80% 20%, rgba(160, 32, 240, 0.03) 0%, transparent 40%),
+                        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 40%);
         }
 
         .glass-header {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(160, 32, 240, 0.08);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 8px 32px 0 rgba(160, 32, 240, 0.04);
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
         }
 
         .text-balance {
             text-wrap: balance;
         }
 
-        .premium-shadow {
-            box-shadow: 
-                0 4px 6px -1px rgba(0, 0, 0, 0.01),
-                0 10px 15px -3px rgba(160, 32, 240, 0.03);
-        }
-
         .premium-shadow-hover:hover {
             box-shadow: 
-                0 20px 40px -10px rgba(0, 0, 0, 0.05),
-                0 15px 30px -5px rgba(160, 32, 240, 0.08);
-            border-color: rgba(160, 32, 240, 0.2);
-            transform: translateY(-4px);
+                0 30px 60px -12px rgba(160, 32, 240, 0.08),
+                0 18px 36px -18px rgba(0, 0, 0, 0.1);
+            border-color: rgba(160, 32, 240, 0.1);
+            transform: translateY(-8px);
         }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #FDFDFF;
+            background: #ffffff;
         }
         ::-webkit-scrollbar-thumb {
             background: #e2e8f0;
-            border: 2px solid #FDFDFF;
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
@@ -141,7 +121,7 @@
 </script>
 </head>
 <body class="selection:bg-brand-purple/20 selection:text-brand-purple">
-    <div class="bg-mesh"></div>
+    <div class="bg-glow"></div>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
 </body>
